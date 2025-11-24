@@ -12,6 +12,7 @@ import SkipToMain from "@/components/accessibility/SkipToMain"
 // Analytics component - only works in client components
 // import Analytics from "@/components/analytics/Analytics"
 import { RegionProvider } from "@/contexts/RegionContext"
+import SocialSidebar from "@/components/layout/SocialSidebar"
 
 // Body font: Inter or Open Sans (Regular, 400 weight)
 const inter = Inter({ 
@@ -132,6 +133,7 @@ export default function RootLayout({
             {/* <Analytics /> - Moved to client component */}
             <StructuredData />
             <Header />
+            <SocialSidebar />
             {children}
             <Toaster />
             <CookieBanner />

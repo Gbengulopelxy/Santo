@@ -3,6 +3,7 @@
 
 import VideoBackground from "@/components/shared/VideoBackground"
 import HeroContent from "@/components/HeroContent"
+import HeroSocialBanner from "@/components/sections/HeroSocialBanner"
 
 interface HeroSectionProps {
   videoSrc?: string
@@ -28,6 +29,7 @@ export default function HeroSection({
       overlayOpacity={overlayOpacity}
     >
       <HeroContent />
+      <HeroSocialBanner />
     </VideoBackground>
   )
 }

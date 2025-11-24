@@ -93,30 +93,16 @@ export default function About() {
                 transition={{ type: "spring", stiffness: 300 }}
                 className="relative bg-[#1e293b] p-4 rounded-2xl border-2 border-primary/30 shadow-2xl"
               >
-                {/* Professional Headshot - Replace placeholder with actual image */}
+                {/* Professional Headshot */}
                 <div className="relative w-full aspect-[3/4] bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl overflow-hidden">
-                  {/* Placeholder - Replace this div with Image component when you have the headshot */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-32 h-32 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border-4 border-primary/30">
-                        <Award className="h-16 w-16 text-primary" />
-                      </div>
-                      <p className="text-sm text-slate-400">Professional Headshot</p>
-                      <p className="text-xs text-slate-500 mt-1">Add your image at /images/headshot.jpg</p>
-                    </div>
-                  </div>
-                  
-                  {/* Uncomment and use when you have the actual headshot image */}
-                  {/* 
                   <Image
                     src="/images/headshot.jpg"
-                    alt="Professional headshot"
+                    alt="Professional headshot - Forbes Business Council Member"
                     fill
-                    className="object-cover rounded-xl"
+                    className="object-contain rounded-xl"
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  */}
                 </div>
               </motion.div>
 

@@ -161,12 +161,46 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
+              className="space-y-6"
             >
-              <h4 className="font-heading text-gray-900 text-lg mb-4">Follow Us</h4>
-              <p className="text-gray-600 mb-4 text-sm">
-                Connect with us on social media for daily insights and updates.
-              </p>
-              <SocialLinks variant="footer" showQR={true} />
+              <SocialLinks variant="footer" showQR={true} showLabels={true} iconSize="lg" />
+              
+              {/* View My Publications Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-6"
+              >
+                <a
+                  href="https://www.santoshkumar.co.uk/books"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="relative bg-[#8B0000] hover:bg-[#7A0000] transition-colors duration-300 rounded-lg overflow-hidden group"
+                  >
+                    {/* Top dark strip */}
+                    <div className="h-1 bg-gray-900"></div>
+                    
+                    {/* Main button area */}
+                    <div className="px-6 py-4 flex items-center justify-center">
+                      <div className="border-2 border-white rounded px-6 py-3">
+                        <span className="text-white font-bold text-base sm:text-lg tracking-wide">
+                          View My Publications
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Bottom light strip */}
+                    <div className="h-1 bg-gray-200"></div>
+                  </motion.div>
+                </a>
+              </motion.div>
             </motion.div>
 
             {/* Column 3: Free University Offering */}

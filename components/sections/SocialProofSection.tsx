@@ -1,63 +1,16 @@
 // components/SocialProof.tsx
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { 
   Calendar, 
-  Linkedin, 
-  Twitter, 
-  Instagram, 
-  Facebook, 
-  Youtube,
-  X,
   Award,
   CheckCircle2,
   TrendingUp,
   Users,
   Star
 } from "lucide-react"
-import { QRCodeSVG } from "qrcode.react"
-
-const socialLinks = [
-  { 
-    icon: Linkedin, 
-    href: "https://linkedin.com/company/strategicconsulting", 
-    label: "LinkedIn",
-    qrValue: "https://linkedin.com/company/strategicconsulting",
-    color: "text-blue-500"
-  },
-  { 
-    icon: Twitter, 
-    href: "https://twitter.com/strategicconsulting", 
-    label: "Twitter",
-    qrValue: "https://twitter.com/strategicconsulting",
-    color: "text-sky-400"
-  },
-  { 
-    icon: Instagram, 
-    href: "https://instagram.com/strategicconsulting", 
-    label: "Instagram",
-    qrValue: "https://instagram.com/strategicconsulting",
-    color: "text-pink-500"
-  },
-  { 
-    icon: Facebook, 
-    href: "https://facebook.com/strategicconsulting", 
-    label: "Facebook",
-    qrValue: "https://facebook.com/strategicconsulting",
-    color: "text-blue-600"
-  },
-  { 
-    icon: Youtube, 
-    href: "https://youtube.com/@strategicconsulting", 
-    label: "YouTube",
-    qrValue: "https://youtube.com/@strategicconsulting",
-    color: "text-red-500"
-  },
-]
 
 const credentials = [
   {
@@ -83,8 +36,6 @@ const credentials = [
 ]
 
 export default function SocialProof() {
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true)
-  const [hoveredSocial, setHoveredSocial] = useState<string | null>(null)
 
   const handleBookCall = () => {
     const contactSection = document.getElementById("contact")
@@ -147,96 +98,6 @@ export default function SocialProof() {
         </div>
       </section>
 
-      {/* Sticky Side Panel - Desktop Only */}
-      <AnimatePresence>
-        {isSidePanelOpen && (
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 100, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block"
-          >
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-l-2xl p-4 shadow-2xl">
-              {/* Close Button */}
-              <button
-                onClick={() => setIsSidePanelOpen(false)}
-                className="absolute -left-3 top-2 w-6 h-6 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30 hover:bg-white/30 transition-colors"
-                aria-label="Close panel"
-              >
-                <X className="h-4 w-4 text-white" />
-              </button>
-
-              <div className="flex flex-col gap-3">
-                <div className="text-center mb-2">
-                  <p className="text-xs text-white/80 font-medium mb-1">Follow Us</p>
-                  <div className="w-12 h-0.5 bg-primary mx-auto"></div>
-                </div>
-
-                {/* Social Media Icons */}
-                {socialLinks.map((social) => {
-                  const Icon = social.icon
-                  return (
-                    <Popover key={social.label}>
-                      <PopoverTrigger asChild>
-                        <motion.a
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onMouseEnter={() => setHoveredSocial(social.label)}
-                          onMouseLeave={() => setHoveredSocial(null)}
-                          whileHover={{ scale: 1.1, x: -5 }}
-                          whileTap={{ scale: 0.9 }}
-                          className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 transition-all duration-300 group"
-                          aria-label={social.label}
-                        >
-                          <Icon className={`h-5 w-5 ${social.color} group-hover:scale-110 transition-transform`} />
-                        </motion.a>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        className="w-48 p-4 bg-[#1e293b]/95 backdrop-blur-md border-slate-700 mr-2"
-                        side="left"
-                        onMouseEnter={() => setHoveredSocial(social.label)}
-                        onMouseLeave={() => setHoveredSocial(null)}
-                      >
-                        <div className="flex flex-col items-center space-y-3">
-                          <QRCodeSVG
-                            value={social.qrValue}
-                            size={120}
-                            level="H"
-                            includeMargin={true}
-                            className="bg-white p-2 rounded-lg"
-                          />
-                          <p className="text-xs text-white/80 text-center">
-                            Scan to visit {social.label}
-                          </p>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  )
-                })}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Reopen Button (when closed) */}
-        {!isSidePanelOpen && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={() => setIsSidePanelOpen(true)}
-            className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden lg:block w-12 h-20 bg-primary/80 hover:bg-primary backdrop-blur-sm rounded-l-2xl flex items-center justify-center border border-primary/30 shadow-lg transition-all duration-300 hover:scale-110"
-            aria-label="Open social panel"
-          >
-            <div className="flex flex-col gap-1">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="w-1 h-1 bg-white rounded-full" />
-              ))}
-            </div>
-          </motion.button>
-        )}
-      </AnimatePresence>
 
       {/* Trust Indicators and Credentials */}
       <section className="py-16 bg-gradient-to-b from-[#0f172a] to-[#1e293b] relative overflow-hidden">

@@ -1,211 +1,121 @@
 // components/Services.tsx
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-  Target, 
-  TrendingUp, 
-  Users, 
-  BarChart3,
-  Lightbulb,
-  Zap,
-  Network,
-  Briefcase,
-  ArrowRight
-} from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-
-// Business Strategy Consulting Services
-const services = [
-  {
-    icon: Target,
-    title: "Strategic Planning",
-    description: "Develop comprehensive strategic plans that align with your vision, market position, and long-term objectives. We create actionable roadmaps that drive measurable results.",
-    features: ["Market Analysis", "Competitive Positioning", "Goal Setting"],
-  },
-  {
-    icon: TrendingUp,
-    title: "Growth Strategy",
-    description: "Accelerate your business growth with data-driven strategies for market expansion, revenue optimization, and sustainable scaling across all business functions.",
-    features: ["Revenue Growth", "Market Expansion", "Scalability Planning"],
-  },
-  {
-    icon: Users,
-    title: "Organizational Development",
-    description: "Transform your organizational structure, culture, and capabilities to support strategic objectives and drive high-performance teams.",
-    features: ["Team Optimization", "Culture Transformation", "Leadership Development"],
-  },
-  {
-    icon: BarChart3,
-    title: "Performance Optimization",
-    description: "Identify and eliminate inefficiencies, optimize processes, and improve operational performance to maximize profitability and competitive advantage.",
-    features: ["Process Improvement", "Cost Optimization", "Efficiency Gains"],
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation Strategy",
-    description: "Foster innovation and digital transformation initiatives that keep your business ahead of the curve and responsive to market changes.",
-    features: ["Digital Transformation", "Innovation Frameworks", "Technology Strategy"],
-  },
-  {
-    icon: Briefcase,
-    title: "Business Transformation",
-    description: "Navigate major business transformations, mergers, acquisitions, and restructuring with expert guidance and change management support.",
-    features: ["M&A Strategy", "Change Management", "Restructuring"],
-  },
-]
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-}
+import Image from "next/image"
 
 export default function Services() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="services" className="py-24 bg-gradient-to-b from-[#0f172a] via-[#0f172a] to-[#1e293b] relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:20px_20px]" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-
+    <section id="services" className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Title Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-medium">
-            <Zap className="h-4 w-4" />
-            <span>Our Services</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white">
-            Strategic Consulting Services
-          </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive business strategy solutions tailored to your unique challenges and growth objectives
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading-bold text-gray-900 mb-2">
+            By Santosh Kumar
+          </h1>
+          <p className="text-lg text-gray-600">
+            Last updated Oct 31<sup>th</sup>, 2022
           </p>
         </motion.div>
 
+        {/* Sketchnote Diagram Section */}
         <motion.div
           ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 max-w-6xl mx-auto"
         >
-          {services.map((service, index) => {
-            const Icon = service.icon
-            
-            return (
-              <motion.div key={service.title} variants={itemVariants}>
-                <Card className="flex flex-col bg-[#1e293b]/80 backdrop-blur-sm border border-slate-700/50 hover:border-primary/50 transition-all duration-500 group h-full">
-                  <CardHeader className="pb-4">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-4 border border-primary/30"
-                    >
-                      <Icon className="h-8 w-8 text-primary" />
-                    </motion.div>
-                    <CardTitle className="text-xl text-white group-hover:text-primary transition-colors">
-                      {service.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-grow space-y-4">
-                    <CardDescription className="text-base text-slate-300 leading-relaxed">
-                      {service.description}
-                    </CardDescription>
-                    
-                    {/* Features List */}
-                    <div className="space-y-2 pt-2 border-t border-slate-700/50">
-                      {service.features.map((feature, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: index * 0.1 + idx * 0.05 }}
-                          className="flex items-center gap-2 text-sm text-slate-400"
-                        >
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          <span>{feature}</span>
-                        </motion.div>
-                      ))}
+          <div className="relative w-full aspect-[4/3] bg-gray-50 rounded-lg shadow-lg overflow-hidden border-2 border-gray-200">
+            {/* Placeholder for sketchnote image - Replace with actual image */}
+            <Image
+              src="/images/strategy-execution-sketchnote.jpg"
+              alt="Strategy Execution Sketchnote - A comprehensive visual mind map showing strategy execution concepts, including canvas, key lessons, strategic innovation, organization, communication, decision-making, and implementation frameworks"
+              fill
+              className="object-contain p-4"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              onError={(e) => {
+                // Fallback if image doesn't exist
+                const target = e.target as HTMLImageElement
+                target.style.display = 'none'
+                const parent = target.parentElement
+                if (parent) {
+                  parent.innerHTML = `
+                    <div class="flex items-center justify-center h-full bg-gray-100 text-gray-500 p-8 text-center">
+                      <div>
+                        <p class="text-lg font-semibold mb-2">Strategy Execution Sketchnote</p>
+                        <p class="text-sm">Please upload the sketchnote image to /public/images/strategy-execution-sketchnote.jpg</p>
+                      </div>
                     </div>
-
-                    <Link
-                      href="#contact"
-                      className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm transition-colors group-hover:gap-3"
-                    >
-                      Learn more
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )
-          })}
+                  `
+                }
+              }}
+            />
+          </div>
         </motion.div>
 
-        {/* CTA Section */}
+        {/* Content Paragraphs */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 text-center"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-4xl mx-auto space-y-8"
         >
-          <div className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 backdrop-blur-sm">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <Network className="h-12 w-12 text-primary mx-auto mb-4" />
-            </motion.div>
-            <h3 className="text-2xl font-bold text-white mb-3">
-              Ready to Transform Your Business?
-            </h3>
-            <p className="text-slate-300 mb-6">
-              Let's discuss how our strategic consulting services can drive your business forward.
-            </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="#contact">
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold shadow-lg shadow-primary/50 hover:shadow-xl hover:shadow-primary/60 transition-all duration-300"
-                >
-                  Get Started Today
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+          {/* First Paragraph - Bold Statement */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-2xl sm:text-3xl font-bold text-gray-900 text-center leading-relaxed"
+          >
+            It is crucial for strategic management to execute strategies successfully
+          </motion.p>
+
+          {/* Second Paragraph */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-lg text-gray-700 leading-relaxed"
+          >
+            Approximately 40-60 percent of the potential value of a company's business strategy is realized according to{" "}
+            <span className="font-semibold text-gray-900">Santosh Kumar Business Review</span>. 
+            This statistic highlights a critical reality: strategy alone is insufficient. A brilliant strategy must be 
+            translated into great performance to achieve its intended outcomes. Without effective execution, even the 
+            most well-crafted strategic plans remain theoretical concepts that fail to deliver tangible business results.
+          </motion.p>
+
+          {/* Third Paragraph */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-lg text-gray-700 leading-relaxed"
+          >
+            Execution is the bridge between strategy and results. A brilliant strategy cannot be achieved without superior 
+            performance in implementation. <span className="font-semibold text-gray-900">Strategy Execution</span> is 
+            rapidly becoming a blip on the radar screens of top executives, led by Balanced Scorecard icons{" "}
+            <span className="font-semibold text-gray-900">Santosh Kumar</span>. This comprehensive guide will teach you 
+            how to implement an effective strategy using models, processes, frameworks, definitions, examples, PPTs, 
+            ebooks and much more! Master the art of turning strategic vision into operational reality and unlock the full 
+            potential of your business strategy.
+          </motion.p>
         </motion.div>
       </div>
     </section>
