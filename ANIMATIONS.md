@@ -243,3 +243,4 @@ All animations respect `prefers-reduced-motion`:
 - **Parallax**: Smooth, continuous
 - **Micro-interactions**: 0.3s cubic-bezier
 
+

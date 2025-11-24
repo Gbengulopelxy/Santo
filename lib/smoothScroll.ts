@@ -93,3 +93,4 @@ export function initSmoothScroll(): () => void {
   return () => document.removeEventListener('click', handleClick)
 }
 
+

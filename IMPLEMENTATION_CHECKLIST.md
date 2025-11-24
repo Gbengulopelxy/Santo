@@ -427,3 +427,4 @@ vercel
 
 The landing page is **production-ready** and can be deployed to Vercel immediately. All core functionality is implemented and tested in development.
 
+

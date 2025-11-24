@@ -131,3 +131,4 @@ export function getTextDirection(locale: Locale): "ltr" | "rtl" {
   return rtlLocales.includes(locale) ? "rtl" : "ltr"
 }
 
+

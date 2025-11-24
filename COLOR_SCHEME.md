@@ -102,3 +102,4 @@ Added custom Forbes colors in `tailwind.config.ts`:
 - All `border-slate-*` replaced with `border-gray-*`
 - All primary CTAs changed from `bg-primary` to `bg-secondary` (gold/orange)
 
+

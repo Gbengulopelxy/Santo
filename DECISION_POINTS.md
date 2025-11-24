@@ -188,3 +188,4 @@ const { vatDecision, setVatDecision, isFormComplete, ... } = useDecision()
 - **Better UX**: Users understand why certain sections are hidden
 - **Centralized State**: All decisions managed in one place
 
+

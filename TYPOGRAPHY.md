@@ -152,3 +152,4 @@ fontFamily: {
 
 All fonts are loaded with `display: "swap"` for optimal performance, ensuring text remains visible during font loading.
 
+

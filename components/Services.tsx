@@ -29,7 +29,7 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Sketchnote Diagram Section */}
+        {/* Group Photo Section */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, scale: 0.95 }}
@@ -37,31 +37,14 @@ export default function Services() {
           transition={{ duration: 0.8 }}
           className="mb-12 max-w-6xl mx-auto"
         >
-          <div className="relative w-full aspect-[4/3] bg-gray-50 rounded-lg shadow-lg overflow-hidden border-2 border-gray-200">
-            {/* Placeholder for sketchnote image - Replace with actual image */}
+          <div className="relative w-full aspect-[16/5] bg-gray-50 rounded-lg shadow-lg overflow-hidden border-2 border-gray-200">
             <Image
               src="/images/strategy-execution-sketchnote.jpg"
-              alt="Strategy Execution Sketchnote - A comprehensive visual mind map showing strategy execution concepts, including canvas, key lessons, strategic innovation, organization, communication, decision-making, and implementation frameworks"
+              alt="Professional business delegation group photo at Altiero Spinelli building, European Parliament - representing international collaboration, strategic partnerships, and global business engagement"
               fill
-              className="object-contain p-4"
+              className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-              onError={(e) => {
-                // Fallback if image doesn't exist
-                const target = e.target as HTMLImageElement
-                target.style.display = 'none'
-                const parent = target.parentElement
-                if (parent) {
-                  parent.innerHTML = `
-                    <div class="flex items-center justify-center h-full bg-gray-100 text-gray-500 p-8 text-center">
-                      <div>
-                        <p class="text-lg font-semibold mb-2">Strategy Execution Sketchnote</p>
-                        <p class="text-sm">Please upload the sketchnote image to /public/images/strategy-execution-sketchnote.jpg</p>
-                      </div>
-                    </div>
-                  `
-                }
-              }}
             />
           </div>
         </motion.div>

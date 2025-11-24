@@ -170,3 +170,4 @@ All components use absolute imports with `@/` alias:
 4. **Scalability**: Easy to add new sections or shared components
 5. **Consistency**: Standardized import paths and naming
 
+
