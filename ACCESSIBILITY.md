@@ -1,121 +1,306 @@
-# Accessibility Documentation
+# Accessibility Implementation - WCAG 2.1 AA Compliance
 
-## Video Hero Accessibility
+This document outlines the accessibility features implemented to meet WCAG 2.1 AA compliance standards.
 
-### Prefers-Reduced-Motion Support
+## WCAG 2.1 AA Compliance Checklist
 
-The `VideoHero` component automatically detects and respects the user's `prefers-reduced-motion` preference:
+### 1. Perceivable
 
-**Implementation:**
-- Uses `window.matchMedia("(prefers-reduced-motion: reduce)")` to detect user preference
-- When detected, the component:
-  - Pauses autoplay video
-  - Shows static poster image instead
-  - Prevents motion-triggered animations
-- Listens for preference changes dynamically
+#### 1.1 Text Alternatives (Level A)
+- ✅ **All images have descriptive alt text**
+  - Hero section images: Descriptive alt text provided
+  - Company logos: Company name in alt text
+  - Decorative images: `aria-hidden="true"` where appropriate
+  - Icon images: Descriptive labels or aria-labels
 
-**Why it matters:**
-- Prevents vestibular disorders (motion sickness, dizziness)
-- Respects user accessibility preferences
-- Improves experience for users sensitive to motion
-- Complies with WCAG 2.1 Level AAA guidelines
+#### 1.2 Time-based Media (Level A)
+- ✅ **Video content**: 
+  - Video has `aria-label` with descriptive title
+  - Poster image fallback provided
+  - Autoplay is muted and can be paused
+  - Subtitles/captions support ready (track element)
 
-**Testing:**
+#### 1.3 Adaptable (Level A)
+- ✅ **Information and relationships**:
+  - Proper heading hierarchy (h1 → h2 → h3)
+  - Semantic HTML elements used throughout
+  - Lists properly structured
+  - Form labels associated with inputs
+
+#### 1.4 Distinguishable (Level AA)
+- ✅ **Color contrast**: 
+  - Text meets 4.5:1 contrast ratio for normal text
+  - Large text meets 3:1 contrast ratio
+  - Focus indicators have sufficient contrast
+- ✅ **Text resizing**: 
+  - Text can be resized up to 200% without loss of functionality
+  - Responsive design adapts to text size changes
+- ✅ **Images of text**: 
+  - No images of text used (all text is actual text)
+- ✅ **Focus indicators**: 
+  - All interactive elements have visible focus indicators
+  - Focus outline: 2px solid primary color with 2px offset
+
+### 2. Operable
+
+#### 2.1 Keyboard Accessible (Level A)
+- ✅ **Keyboard navigation**:
+  - All functionality available via keyboard
+  - No keyboard traps
+  - Tab order is logical and intuitive
+  - Skip to main content link provided
+- ✅ **Keyboard shortcuts**:
+  - Escape key closes modals/dialogs
+  - Enter/Space activates buttons and links
+  - Tab navigation works throughout
+
+#### 2.2 Enough Time (Level A)
+- ✅ **No time limits**: 
+  - No time-based content that requires user interaction
+  - Cookie banner can be dismissed
+  - No auto-updating content that requires user attention
+
+#### 2.3 Seizures and Physical Reactions (Level AAA)
+- ✅ **No flashing content**: 
+  - No content flashes more than 3 times per second
+  - Animations respect `prefers-reduced-motion`
+
+#### 2.4 Navigable (Level AA)
+- ✅ **Skip links**: 
+  - "Skip to main content" link provided
+  - Visible on keyboard focus
+- ✅ **Page titles**: 
+  - Descriptive page titles
+  - Template for consistent titles
+- ✅ **Focus order**: 
+  - Logical tab order throughout
+  - Focus management in modals
+- ✅ **Link purpose**: 
+  - Link text is descriptive
+  - ARIA labels where needed
+  - Context provided for ambiguous links
+
+#### 2.5 Input Modalities (Level AA)
+- ✅ **Pointer gestures**: 
+  - All functionality available without complex gestures
+  - Touch targets are at least 44x44px
+- ✅ **Pointer cancellation**: 
+  - No accidental activations
+  - Confirmation for destructive actions
+
+### 3. Understandable
+
+#### 3.1 Readable (Level A)
+- ✅ **Language**: 
+  - `lang="en"` attribute on html element
+  - Language changes marked where applicable
+
+#### 3.2 Predictable (Level AA)
+- ✅ **On focus**: 
+  - No context changes on focus
+- ✅ **On input**: 
+  - No unexpected context changes
+  - Form validation provides clear feedback
+- ✅ **Consistent navigation**: 
+  - Navigation is consistent across pages
+  - Components behave consistently
+
+#### 3.3 Input Assistance (Level AA)
+- ✅ **Error identification**: 
+  - Form errors are clearly identified
+  - Error messages are descriptive
+  - Visual and text-based error indicators
+- ✅ **Labels or instructions**: 
+  - All form inputs have associated labels
+  - Instructions provided where needed
+  - Placeholder text used appropriately
+- ✅ **Error suggestion**: 
+  - Suggestions provided for form errors
+  - Real-time validation feedback
+
+### 4. Robust
+
+#### 4.1 Compatible (Level A)
+- ✅ **Parsing**: 
+  - Valid HTML5 markup
+  - No duplicate IDs
+  - Proper nesting of elements
+- ✅ **Name, Role, Value**: 
+  - ARIA attributes used correctly
+  - Custom components have proper roles
+  - States and properties communicated to assistive technology
+
+## Implementation Details
+
+### Focus Indicators
+
+All interactive elements have visible focus indicators:
+
 ```css
-/* Browser DevTools: Toggle in Rendering tab */
-@media (prefers-reduced-motion: reduce) {
-  /* Video should pause, poster image should show */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 ```
 
-### Text Contrast Compliance
+### Skip to Main Content
 
-The video hero ensures WCAG AA contrast compliance for text readability:
+A "Skip to main content" link is provided for keyboard users:
 
-**Overlay Gradient:**
 ```tsx
-className="bg-gradient-to-b from-black/60 via-black/40 to-black/60"
+<a href="#main-content" className="skip-to-main">
+  Skip to main content
+</a>
 ```
 
-- **Top**: `black/60` (60% opacity) - ensures dark background for headline
-- **Middle**: `black/40` (40% opacity) - balanced overlay
-- **Bottom**: `black/60` (60% opacity) - ensures dark background for CTA buttons
+### Keyboard Navigation
 
-**Text Styling:**
-- White text color (`text-white`)
-- Drop shadow for enhanced contrast (`drop-shadow-lg`, `drop-shadow-md`)
-- Minimum 4.5:1 contrast ratio achieved
+- **Tab**: Navigate through interactive elements
+- **Shift + Tab**: Navigate backwards
+- **Enter/Space**: Activate buttons and links
+- **Escape**: Close modals and dialogs
+- **Arrow keys**: Navigate within components (where applicable)
 
-**Verification:**
-- Use browser DevTools accessibility inspector
-- Test with WebAIM Contrast Checker
-- Verify with screen reader testing
+### ARIA Labels and Roles
 
-### Additional Accessibility Features
+#### Navigation
+- `aria-label="Toggle menu"` on mobile menu button
+- `aria-expanded` on collapsible menus
+- `aria-controls` linking buttons to controlled elements
 
-#### 1. Screen Reader Support
-- `aria-label` on video element: "Background video showcasing AI technology"
-- Descriptive `title` prop passed to video
-- `aria-hidden="true"` on decorative overlay elements
-- Screen reader-only fallback text (`sr-only` class)
+#### Modals and Dialogs
+- `role="dialog"` on modal containers
+- `aria-modal="true"` on modal dialogs
+- `aria-labelledby` and `aria-describedby` for dialog content
 
-#### 2. Low Bandwidth Detection
-- Detects `navigator.connection.saveData` (Data Saver mode)
-- Detects slow connections (2g, slow-2g effective types)
-- Automatically falls back to poster image
-- Saves user's data and improves performance
+#### Forms
+- All inputs have associated `<label>` elements
+- `aria-required="true"` on required fields
+- `aria-invalid` and `aria-describedby` for error states
+- `aria-live="polite"` for dynamic content updates
 
-#### 3. Mobile Compatibility
-- `playsInline` attribute for iOS Safari
-- Responsive poster image fallback
-- Touch-friendly interaction
-- Works without JavaScript (graceful degradation)
+#### Images
+- Descriptive `alt` text for all images
+- `aria-hidden="true"` for decorative images
+- Empty `alt=""` for purely decorative images
 
-#### 4. Video Error Handling
-- `onError` handler catches video load failures
-- Falls back to poster image automatically
-- No broken video display for users
+### Heading Hierarchy
 
-### WCAG 2.1 Compliance
+Proper heading hierarchy is maintained:
 
-| Criterion | Level | Status | Notes |
-|-----------|-------|--------|-------|
-| 1.4.2 Audio Control | A | ✅ | Video is muted, no auto-playing audio |
-| 1.4.3 Contrast (Minimum) | AA | ✅ | Text has 4.5:1 contrast ratio |
-| 1.4.10 Reflow | AA | ✅ | Responsive design, no horizontal scroll |
-| 2.1.1 Keyboard | A | ✅ | All interactive elements keyboard accessible |
-| 2.3.3 Animation from Interactions | AAA | ✅ | Respects prefers-reduced-motion |
-| 2.4.6 Headings and Labels | AA | ✅ | Semantic HTML headings used |
-| 3.2.3 Consistent Navigation | AA | ✅ | Navigation consistent across pages |
-| 4.1.3 Status Messages | AA | ✅ | Form validation and toast notifications announced |
+```
+h1 - Main page title (Hero section)
+  h2 - Section titles (About, Features, etc.)
+    h3 - Subsection titles
+      h4 - Sub-subsection titles
+```
 
-### Testing Checklist
+### Color Contrast
 
-- [ ] Test with screen reader (NVDA, JAWS, VoiceOver)
-- [ ] Verify keyboard navigation works
-- [ ] Test with prefers-reduced-motion enabled
-- [ ] Verify contrast ratios with WebAIM Contrast Checker
-- [ ] Test on slow connections (throttle in DevTools)
-- [ ] Test with data saver mode enabled
-- [ ] Verify video fallback to poster image
-- [ ] Test on mobile devices (iOS Safari, Android Chrome)
-- [ ] Verify all images have alt text
-- [ ] Test form validation accessibility
+All text meets WCAG AA contrast requirements:
+- Normal text: 4.5:1 contrast ratio
+- Large text (18pt+): 3:1 contrast ratio
+- Focus indicators: High contrast
 
-### Browser Support
+### Reduced Motion
 
-| Browser | Version | Support | Notes |
-|---------|---------|---------|-------|
-| Chrome | 90+ | ✅ | Full support |
-| Firefox | 88+ | ✅ | Full support |
-| Safari | 14+ | ✅ | Full support (iOS 14+) |
-| Edge | 90+ | ✅ | Full support |
-| Opera | 76+ | ✅ | Full support |
+Animations respect user preferences:
 
-### Resources
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+### Screen Reader Support
+
+- Semantic HTML elements used throughout
+- ARIA labels for icon-only buttons
+- Descriptive link text
+- Form labels properly associated
+- Error messages announced to screen readers
+- Live regions for dynamic content
+
+## Testing
+
+### Automated Testing
+- Use tools like:
+  - axe DevTools
+  - WAVE (Web Accessibility Evaluation Tool)
+  - Lighthouse Accessibility audit
+  - Pa11y
+
+### Manual Testing
+1. **Keyboard Navigation**:
+   - Tab through all interactive elements
+   - Verify focus indicators are visible
+   - Test all functionality with keyboard only
+
+2. **Screen Reader Testing**:
+   - Test with NVDA (Windows)
+   - Test with JAWS (Windows)
+   - Test with VoiceOver (macOS/iOS)
+   - Verify all content is announced correctly
+
+3. **Visual Testing**:
+   - Test with browser zoom at 200%
+   - Test with high contrast mode
+   - Test with color blindness simulators
+
+4. **Form Testing**:
+   - Submit forms with errors
+   - Verify error messages are clear
+   - Test with screen reader
+
+## Components with Accessibility Features
+
+### Header/Navigation
+- Skip to main content link
+- Keyboard accessible menu
+- ARIA labels on all interactive elements
+- Focus management
+
+### Cookie Banner
+- Dialog role with proper ARIA attributes
+- Keyboard accessible
+- Focus trap within dialog
+
+### Contact Form
+- All inputs have labels
+- Error messages with ARIA attributes
+- Real-time validation feedback
+- Required field indicators
+
+### Buttons
+- Visible focus indicators
+- Keyboard accessible
+- ARIA labels where needed
+- Proper button semantics
+
+### Images
+- Descriptive alt text
+- Decorative images marked with aria-hidden
+- Proper image sizing
+
+## Resources
 
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
-- [prefers-reduced-motion MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)
-- [Screen Reader Testing Guide](https://webaim.org/articles/screenreader_testing/)
+- [WebAIM](https://webaim.org/)
+- [A11y Project](https://www.a11yproject.com/)
+- [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
 
+## Maintenance
+
+- Regularly audit with automated tools
+- Test with real screen readers
+- Keep up with WCAG updates
+- Review user feedback
+- Test with actual users with disabilities

@@ -46,7 +46,7 @@ import Footer from "@/components/Footer"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white">
       {/* 
         HERO SECTION
         - Full-screen video background with overlay

@@ -1,118 +1,75 @@
-// app/(root)/page.tsx
+// app/page.tsx
 "use client"
 
 /**
- * Main landing page for EchoWorks AI
+ * Main landing page for Strategic Business Consulting
  * 
- * SETUP INSTRUCTIONS FOR VIDEO AND POSTER IMAGE:
- * 
- * 1. VIDEO FILE (MP4):
- *    - Place your MP4 video file in: public/videos/Robot.mp4
- *    - Current file: Robot.mp4
- *    - Recommended: H.264 codec, 1920x1080 (Full HD), under 10MB for fast loading
- *    - Format: MP4 (.mp4 extension)
- *    - Update the 'src' prop below if using a different filename/path
- * 
- * 2. POSTER IMAGE (Fallback):
- *    - Place your poster image in: public/images/hero-poster.png
- *    - Recommended: JPG or PNG, 1920x1080, under 500KB
- *    - Should be a representative frame from your video or branded image
- *    - Update the 'poster' prop below if using a different filename/path
- * 
- * 3. OPEN GRAPH IMAGE (Social Sharing):
- *    - Place OG image in: public/images/og-image.jpg
- *    - Recommended: 1200x630px, JPG or PNG
- *    - This is used for social media sharing previews
- *    - Update metadata in app/layout.tsx if using a different path
- * 
- * PAGE STRUCTURE:
- * - Hero section with video background (VideoHero + HeroContent)
- * - Services section (5 service cards in responsive grid)
- * - Case Studies section (6 case study cards)
- * - Testimonials section (carousel with 5 testimonials)
- * - Pricing section (3 pricing tiers with expandable details)
- * - Contact Form section (form + calendar booking CTA)
- * - Footer (social links, newsletter, legal)
+ * This page uses the new component structure:
+ * - /components/layout: Header, Footer, CookieBanner
+ * - /components/sections: HeroSection, AboutSection, FeaturesSection, etc.
+ * - /components/shared: VideoBackground, SocialLinks, CountrySelector, AnimatedCounter
  */
 
-import VideoHero from "@/components/VideoHero"
-import HeroContent from "@/components/HeroContent"
+import HeroSection from "@/components/sections/HeroSection"
+import SocialProofSection from "@/components/sections/SocialProofSection"
+import AboutSection from "@/components/sections/AboutSection"
 import Services from "@/components/Services"
+import FeaturesSection from "@/components/sections/FeaturesSection"
+import FeaturesBenefitsDetailed from "@/components/FeaturesBenefitsDetailed"
+import CTASection from "@/components/sections/CTASection"
 import CaseStudies from "@/components/CaseStudies"
 import Testimonials from "@/components/Testimonials"
-import Pricing from "@/components/Pricing"
+import PricingSection from "@/components/sections/PricingSection"
 import ContactForm from "@/components/ContactForm"
-import Footer from "@/components/Footer"
+import Footer from "@/components/layout/Footer"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#0f172a]">
-      {/* 
-        HERO SECTION
-        - Full-screen video background with overlay
-        - Contains headline, subheadline, and CTA buttons
-        - Uses semantic h1 heading inside HeroContent component
-      */}
-      <VideoHero
-        src="/videos/Robot.mp4"
-        poster="/images/hero-poster.png"
-        title="Background video showcasing AI technology and business automation"
-        overlay={true}
-      >
-        <HeroContent
-          headlineVariant={1}
-          subheadline="Automation, voice agents, chatbots, and end-to-end AI solutions that drive real results"
-        />
-      </VideoHero>
+    <main id="main-content" className="min-h-screen bg-white" tabIndex={-1}>
+      <HeroSection />
 
-      {/* 
-        SERVICES SECTION
-        - Responsive grid: 1 col mobile, 2 cols tablet, 3 cols desktop
-        - Uses semantic h2 heading
-        - 5 service cards with icons and descriptions
-      */}
+      <SocialProofSection />
+
+      <AboutSection />
+
       <Services />
 
-      {/* 
-        CASE STUDIES SECTION
-        - Responsive grid: 1 col mobile, 2 cols tablet, 3 cols desktop
-        - Uses semantic h2 heading
-        - 6 case study cards with "View case study" CTAs
-      */}
+      <FeaturesSection />
+
+      <FeaturesBenefitsDetailed />
+
+      <CTASection
+        title="Ready to Scale Your Business?"
+        description="Book a free strategy call with a Forbes Business Council member and unlock your next level of growth."
+        buttonText="Book Your Free Strategy Call"
+        variant="primary"
+        className="mt-24"
+      />
+
       <CaseStudies />
 
-      {/* 
-        TESTIMONIALS SECTION
-        - Auto-rotating carousel (5 seconds)
-        - Manual navigation with prev/next buttons and dots
-        - Uses semantic h2 heading
-        - 5 client testimonials
-      */}
       <Testimonials />
 
-      {/* 
-        HOW IT WORKS SECTION
-        - Timeline-style layout with 4 steps
-        - Uses semantic h2 heading
-        - Prominent CTA button to book strategy call
-      */}
-      <Pricing />
+      <CTASection
+        title="What Are You Waiting For?"
+        description="Don't let your competitors get ahead. Take action today and transform your business with expert guidance."
+        buttonText="Get Started Now"
+        variant="secondary"
+        className="mt-24"
+      />
 
-      {/* 
-        CONTACT FORM SECTION
-        - Responsive layout: stacked mobile, side-by-side desktop
-        - Uses semantic h2 heading
-        - Contact form (name, email, company, budget, message)
-        - Calendar booking CTA card
-      */}
+      <PricingSection />
+
+      <CTASection
+        title="Still Have Questions?"
+        description="Reach out to us directly. We're here to provide clarity and guide you towards your business objectives."
+        buttonText="Contact Our Team"
+        variant="minimal"
+        className="mt-24"
+      />
+
       <ContactForm />
 
-      {/* 
-        FOOTER
-        - Responsive grid layout
-        - Social media links, newsletter signup, legal links
-        - Copyright information
-      */}
       <Footer />
     </main>
   )

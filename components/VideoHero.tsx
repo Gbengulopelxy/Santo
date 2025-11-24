@@ -2,6 +2,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useScroll, useTransform, motion } from "framer-motion"
+import ParticleBackground from "./ParticleBackground"
 
 interface VideoHeroProps {
   /** Path to the video file (e.g., "/videos/hero-video.mp4") */
@@ -19,7 +21,7 @@ interface VideoHeroProps {
 export default function VideoHero({
   src,
   poster,
-  title = "Background video showcasing AI technology",
+  title = "Background video showcasing business strategy and growth",
   overlay = true,
   children,
 }: VideoHeroProps) {
@@ -102,10 +104,18 @@ export default function VideoHero({
     }
   }
 
+  // Parallax effect for hero section
+  const { scrollYProgress } = useScroll()
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Video Background with CSS fallback */}
-      <div className="absolute inset-0 z-0">
+      {/* Video Background with CSS fallback - Parallax effect */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ y, opacity }}
+      >
         {!usePosterFallback && shouldPlay ? (
           <video
             ref={videoRef}
@@ -117,8 +127,8 @@ export default function VideoHero({
             aria-label={title}
             title={title}
             className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
             onError={handleVideoError}
-            style={{ display: usePosterFallback ? "none" : "block" }}
           >
             <source src={src} type="video/mp4" />
             {/* Accessible captions/track for decorative video */}
@@ -136,19 +146,29 @@ export default function VideoHero({
               src={poster}
               alt={title}
               className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
               aria-hidden={true}
             />
           )
         )}
 
-        {/* Semi-transparent gradient overlay behind hero text */}
+        {/* Enhanced gradient overlay */}
         {overlay && (
-          <div
-            className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"
-            aria-hidden="true"
-          />
+          <>
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10"
+              aria-hidden="true"
+            />
+          </>
         )}
-      </div>
+
+        {/* Particle Background Effect */}
+        <ParticleBackground />
+      </motion.div>
 
       {/* Content slot for HeroContent component */}
       <div className="relative z-10 h-full flex items-center justify-center">
