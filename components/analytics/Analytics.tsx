@@ -4,6 +4,11 @@
 import { useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 
+// Only track in browser
+if (typeof window !== "undefined") {
+  // Analytics will be initialized here when needed
+}
+
 /**
  * Analytics component - ready for integration
  * Supports Google Analytics, Plausible, or custom analytics
@@ -14,9 +19,14 @@ export default function Analytics() {
 
   useEffect(() => {
     // Track page views
-    if (typeof window !== "undefined") {
-      const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "")
-      trackPageView(url)
+    if (typeof window !== "undefined" && pathname) {
+      try {
+        const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "")
+        trackPageView(url)
+      } catch (error) {
+        // Silently fail if analytics tracking fails
+        console.warn("Analytics tracking error:", error)
+      }
     }
   }, [pathname, searchParams])
 

@@ -9,7 +9,8 @@ import { DecisionProvider } from "@/contexts/DecisionContext"
 import LegalComplianceSidebar from "@/components/LegalComplianceSidebar"
 import PerformanceOptimizations from "@/components/PerformanceOptimizations"
 import SkipToMain from "@/components/accessibility/SkipToMain"
-import Analytics from "@/components/analytics/Analytics"
+// Analytics component - only works in client components
+// import Analytics from "@/components/analytics/Analytics"
 import { RegionProvider } from "@/contexts/RegionContext"
 
 // Body font: Inter or Open Sans (Regular, 400 weight)
@@ -128,7 +129,7 @@ export default function RootLayout({
           <RegionProvider>
             <SkipToMain />
             <PerformanceOptimizations />
-            <Analytics />
+            {/* <Analytics /> - Moved to client component */}
             <StructuredData />
             <Header />
             {children}

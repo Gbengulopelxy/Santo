@@ -2,7 +2,6 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { useDecision } from "./DecisionContext"
 
 export type Region = "UK" | "Isle of Man" | "Jersey" | "Worldwide"
 
@@ -125,21 +124,51 @@ interface RegionContextType {
 const RegionContext = createContext<RegionContextType | undefined>(undefined)
 
 export function RegionProvider({ children }: { children: ReactNode }) {
-  const { selectedCountry } = useDecision()
   const [region, setRegion] = useState<Region>("UK")
 
-  // Sync with country selector from DecisionContext
+  // Listen for country changes from Header component
   useEffect(() => {
-    if (selectedCountry) {
+    if (typeof window === "undefined") return
+
+    const updateRegion = (countryName: string) => {
       const countryToRegion: Record<string, Region> = {
-        UK: "UK",
+        "United Kingdom": "UK",
         "Isle of Man": "Isle of Man",
-        Jersey: "Jersey",
-        Worldwide: "Worldwide",
+        "Jersey": "Jersey",
+        "Worldwide": "Worldwide",
       }
-      setRegion(countryToRegion[selectedCountry] || "UK")
+      setRegion(countryToRegion[countryName] || "UK")
     }
-  }, [selectedCountry])
+
+    // Check initial value
+    const storedCountry = localStorage.getItem("selectedCountry")
+    if (storedCountry) {
+      updateRegion(storedCountry)
+    }
+
+    // Listen for storage events (from other tabs/windows)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "selectedCountry" && e.newValue) {
+        updateRegion(e.newValue)
+      }
+    }
+
+    // Listen for custom events (from same window)
+    const handleCustomStorage = (e: Event) => {
+      const customEvent = e as CustomEvent<{ key: string; newValue: string }>
+      if (customEvent.detail?.key === "selectedCountry" && customEvent.detail?.newValue) {
+        updateRegion(customEvent.detail.newValue)
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    window.addEventListener("countryChanged", handleCustomStorage as EventListener)
+    
+    return () => {
+      window.removeEventListener("storage", handleStorageChange)
+      window.removeEventListener("countryChanged", handleCustomStorage as EventListener)
+    }
+  }, [])
 
   const content = regionContent[region]
   const isVatApplicable = content.vatRate > 0

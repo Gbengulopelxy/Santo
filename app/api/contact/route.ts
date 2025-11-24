@@ -1,12 +1,16 @@
 // app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server"
-import { Resend } from "resend"
 
-// Initialize Resend (you'll need to install: npm install resend)
-// Get your API key from https://resend.com/api-keys
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null
+// Resend is optional - only initialize if API key is provided
+let resend: any = null
+if (process.env.RESEND_API_KEY) {
+  try {
+    const { Resend } = require("resend")
+    resend = new Resend(process.env.RESEND_API_KEY)
+  } catch (error) {
+    console.warn("Resend package not installed. Email notifications disabled.")
+  }
+}
 
 interface ContactFormData {
   fullName: string

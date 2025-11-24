@@ -25,11 +25,6 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0])
 
-  const handleBookMeeting = () => {
-    trackCTAClick("Book Meeting", "Header")
-    scrollToSection("contact")
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
@@ -86,7 +81,16 @@ export default function Header() {
             {/* Country Selector */}
             <CountrySelector
               selectedCountry={selectedCountry}
-              onCountryChange={setSelectedCountry}
+              onCountryChange={(country) => {
+                setSelectedCountry(country)
+                if (typeof window !== "undefined") {
+                  localStorage.setItem("selectedCountry", country.name)
+                  // Dispatch custom event for RegionContext
+                  window.dispatchEvent(new CustomEvent("countryChanged", {
+                    detail: { key: "selectedCountry", newValue: country.name }
+                  }))
+                }
+              }}
               variant="desktop"
             />
 
@@ -175,6 +179,13 @@ export default function Header() {
                   onCountryChange={(country) => {
                     setSelectedCountry(country)
                     setIsMobileMenuOpen(false)
+                    if (typeof window !== "undefined") {
+                      localStorage.setItem("selectedCountry", country.name)
+                      // Dispatch custom event for RegionContext
+                      window.dispatchEvent(new CustomEvent("countryChanged", {
+                        detail: { key: "selectedCountry", newValue: country.name }
+                      }))
+                    }
                   }}
                   variant="mobile"
                 />

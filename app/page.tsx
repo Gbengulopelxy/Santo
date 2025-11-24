@@ -10,6 +10,7 @@
  * - /components/shared: VideoBackground, SocialLinks, CountrySelector, AnimatedCounter
  */
 
+import Analytics from "@/components/analytics/Analytics"
 import HeroSection from "@/components/sections/HeroSection"
 import SocialProofSection from "@/components/sections/SocialProofSection"
 import AboutSection from "@/components/sections/AboutSection"
@@ -25,7 +26,9 @@ import Footer from "@/components/layout/Footer"
 
 export default function HomePage() {
   return (
-    <main id="main-content" className="min-h-screen bg-white" tabIndex={-1}>
+    <>
+      <Analytics />
+      <main id="main-content" className="min-h-screen bg-white" tabIndex={-1}>
       <HeroSection />
 
       <SocialProofSection />
@@ -72,5 +75,6 @@ export default function HomePage() {
 
       <Footer />
     </main>
+    </>
   )
 }

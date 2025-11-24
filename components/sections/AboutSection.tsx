@@ -1,6 +1,7 @@
 // components/About.tsx
 "use client"
 
+import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import { Award, TrendingUp, Users, Target, CheckCircle2 } from "lucide-react"
