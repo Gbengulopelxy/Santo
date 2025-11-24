@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { Mail, Phone, Calendar, Send, CheckCircle2, AlertCircle } from "lucide-react"
+import { Mail, Send, CheckCircle2, AlertCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -217,70 +217,9 @@ export default function ContactForm() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           >
-            {/* Contact Info Cards */}
-            <motion.div variants={itemVariants} className="lg:col-span-1 space-y-4">
-              <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Card className="bg-white backdrop-blur-sm border border-gray-200 hover:border-primary/50 transition-all duration-300 shadow-md">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30 flex-shrink-0">
-                        <Mail className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-heading text-gray-900 mb-1">Email Us</h3>
-                        <p className="text-sm text-gray-600">info@strategicconsulting.com</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Card className="bg-white backdrop-blur-sm border border-gray-200 hover:border-primary/50 transition-all duration-300 shadow-md">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30 flex-shrink-0">
-                        <Phone className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-heading text-gray-900 mb-1">Call Us</h3>
-                        <p className="text-sm text-gray-600">+1 (555) 123-4567</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Card className="bg-white backdrop-blur-sm border border-gray-200 hover:border-primary/50 transition-all duration-300 shadow-md">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/30 flex-shrink-0">
-                        <Calendar className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-heading text-gray-900 mb-1">Schedule</h3>
-                        <p className="text-sm text-gray-600">Mon-Fri, 9 AM - 6 PM EST</p>
-                      </div>
-        </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </motion.div>
-
             {/* Contact Form */}
-            <motion.div variants={itemVariants} className="lg:col-span-2">
+            <motion.div variants={itemVariants}>
               <Card className="bg-white backdrop-blur-sm border border-gray-200 shadow-md">
             <CardHeader>
                     <CardTitle className="text-2xl font-heading text-gray-900">Send us a message</CardTitle>
