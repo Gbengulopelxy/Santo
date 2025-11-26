@@ -171,3 +171,4 @@ All components use absolute imports with `@/` alias:
 5. **Consistency**: Standardized import paths and naming
 
 
+

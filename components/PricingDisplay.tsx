@@ -5,12 +5,10 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { useDecision } from "@/contexts/DecisionContext"
 import { 
   CheckCircle2, 
   Calendar, 
   ArrowRight,
-  Info,
   Shield,
   TrendingUp,
   Target,
@@ -87,37 +85,12 @@ const pricingTiers: PricingTier[] = [
   },
 ]
 
-const VAT_RATE = 0.20 // 20% UK VAT rate
-
 interface PricingDisplayProps {
   selectedCountry?: string
 }
 
 export default function PricingDisplay({ selectedCountry = "GB" }: PricingDisplayProps) {
-  const { vatDecision, setVatDecision } = useDecision()
-  const [showVATInfo, setShowVATInfo] = useState(false)
   const [showLegalNotice, setShowLegalNotice] = useState(false)
-  
-  // Use context value or local state fallback
-  const includeVAT = vatDecision
-
-  // Countries that require VAT
-  const vatRequiredCountries = ["GB", "IM", "JE"] // UK, Isle of Man, Jersey
-
-  const requiresVAT = vatRequiredCountries.includes(selectedCountry)
-
-  const calculatePrice = (basePrice: number) => {
-    if (includeVAT === null) return basePrice
-    if (includeVAT) {
-      return basePrice * (1 + VAT_RATE)
-    }
-    return basePrice
-  }
-
-  const calculateVAT = (basePrice: number) => {
-    if (!requiresVAT || !includeVAT) return 0
-    return basePrice * VAT_RATE
-  }
 
   const handleBookCall = () => {
     const contactSection = document.getElementById("contact")
@@ -153,62 +126,11 @@ export default function PricingDisplay({ selectedCountry = "GB" }: PricingDispla
           </p>
         </motion.div>
 
-        {/* VAT Decision Flow */}
-        {includeVAT === null && requiresVAT && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto mb-8"
-          >
-            <Card className="bg-[#1e293b]/80 backdrop-blur-sm border-primary/30">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
-                  <Info className="h-5 w-5 text-primary" />
-                  VAT Information
-                </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Please confirm if you need VAT included in the pricing
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <p className="text-slate-300">
-                    Based on your selected region ({selectedCountry === "GB" ? "United Kingdom" : selectedCountry === "IM" ? "Isle of Man" : "Jersey"}), 
-                    VAT may apply to your purchase.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button
-                      onClick={() => setVatDecision(true)}
-                      className="flex-1 bg-primary hover:bg-primary/90 text-white"
-                    >
-                      Yes, Include VAT (20%)
-                    </Button>
-                    <Button
-                      onClick={() => setVatDecision(false)}
-                      variant="outline"
-                      className="flex-1 border-slate-600 text-white hover:bg-slate-700"
-                    >
-                      No, Exclude VAT
-                    </Button>
-                  </div>
-                  <button
-                    onClick={() => setShowVATInfo(true)}
-                    className="text-sm text-primary hover:text-primary/80 underline"
-                  >
-                    Learn more about VAT
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
 
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
           {pricingTiers.map((tier, index) => {
             const Icon = tier.icon
-            const finalPrice = calculatePrice(tier.price)
-            const vatAmount = calculateVAT(tier.price)
             const basePrice = tier.price
 
             return (
@@ -248,45 +170,10 @@ export default function PricingDisplay({ selectedCountry = "GB" }: PricingDispla
                     <div className="mb-6">
                       <div className="flex items-baseline gap-2">
                         <span className="text-4xl font-bold text-white">
-                          {includeVAT !== null && requiresVAT && includeVAT
-                            ? `£${finalPrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                            : `£${basePrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                          £{basePrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                         <span className="text-slate-400 text-sm">/{tier.pricePeriod}</span>
                       </div>
-
-                      {/* VAT Breakdown */}
-                      {includeVAT !== null && requiresVAT && includeVAT && (
-                        <div className="mt-2 text-sm text-slate-400 space-y-1">
-                          <div className="flex justify-between">
-                            <span>Base Price:</span>
-                            <span>£{basePrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>VAT (20%):</span>
-                            <span>£{vatAmount.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                          </div>
-                          <div className="flex justify-between pt-2 border-t border-slate-700">
-                            <span className="font-semibold text-white">Total:</span>
-                            <span className="font-semibold text-white">
-                              £{finalPrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {includeVAT !== null && requiresVAT && !includeVAT && (
-                        <div className="mt-2 text-sm text-slate-400">
-                          <p>Excluding VAT</p>
-                          <p className="text-xs mt-1">VAT will be added at checkout if applicable</p>
-                        </div>
-                      )}
-
-                      {!requiresVAT && (
-                        <div className="mt-2 text-sm text-slate-400">
-                          <p>No VAT applicable</p>
-                        </div>
-                      )}
                     </div>
 
                     {/* Features List */}
@@ -321,33 +208,6 @@ export default function PricingDisplay({ selectedCountry = "GB" }: PricingDispla
           })}
         </div>
 
-        {/* VAT Disclaimer */}
-        {includeVAT !== null && requiresVAT && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto mb-8"
-          >
-            <Card className="bg-primary/10 border-primary/20">
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-slate-300">
-                    <p className="font-semibold text-white mb-2">VAT Information</p>
-                    <p className="mb-2">
-                      {includeVAT
-                        ? "Prices shown include VAT at the standard UK rate of 20%. The final amount you pay is the total displayed price."
-                        : "Prices shown exclude VAT. If you are a UK-based business or individual, VAT at 20% will be added at checkout. VAT-registered businesses may be able to reclaim VAT."}
-                    </p>
-                    <p>
-                      For businesses outside the UK, Isle of Man, or Jersey, VAT may not apply. Please contact us for clarification on your specific situation.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
 
         {/* Legal Requirement Notices */}
         <motion.div
@@ -435,48 +295,6 @@ export default function PricingDisplay({ selectedCountry = "GB" }: PricingDispla
         </motion.div>
       </div>
 
-      {/* VAT Information Dialog */}
-      <Dialog open={showVATInfo} onOpenChange={setShowVATInfo}>
-        <DialogContent className="max-w-2xl bg-[#1e293b] border-slate-700">
-          <DialogHeader>
-            <DialogTitle className="text-white">Understanding VAT</DialogTitle>
-            <DialogDescription className="text-slate-400">
-              Information about Value Added Tax (VAT) and how it applies to your purchase
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 text-slate-300">
-            <div>
-              <h4 className="font-semibold text-white mb-2">What is VAT?</h4>
-              <p>
-                Value Added Tax (VAT) is a consumption tax charged on most goods and services in the UK. 
-                The standard rate is currently 20%.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-2">When does VAT apply?</h4>
-              <p>
-                VAT applies to purchases made by individuals and businesses located in the UK, Isle of Man, 
-                or Jersey. If you are VAT-registered, you may be able to reclaim VAT paid on business expenses.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-2">International Customers</h4>
-              <p>
-                If you are located outside the UK, Isle of Man, or Jersey, VAT may not apply. However, 
-                you may be subject to local taxes in your jurisdiction. Please consult with a tax advisor 
-                in your country for guidance.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-2">Need Help?</h4>
-              <p>
-                If you're unsure about VAT applicability for your situation, please contact us and we'll 
-                be happy to assist you.
-              </p>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Legal Notice Dialog */}
       <Dialog open={showLegalNotice} onOpenChange={setShowLegalNotice}>

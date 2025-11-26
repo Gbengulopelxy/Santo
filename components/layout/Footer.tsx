@@ -26,7 +26,6 @@ const secondaryNav = [
   { label: "Blog", href: "#blog" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Testimonials", href: "#testimonials" },
-  { label: "Pricing", href: "#pricing" },
   { label: "Contact", href: "#contact" },
 ]
 

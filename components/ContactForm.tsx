@@ -18,7 +18,7 @@ import { useDecision } from "@/contexts/DecisionContext"
 import { useEffect } from "react"
 import { trackFormSubmission } from "@/components/analytics/Analytics"
 
-// Enhanced Zod validation schema with phone and GDPR consent
+// Enhanced Zod validation schema with phone
 const contactFormSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters").max(100, "Full name is too long"),
   email: z.string().email("Please enter a valid email address"),
@@ -36,9 +36,6 @@ const contactFormSchema = z.object({
   company: z.string().max(100, "Company name is too long").optional().or(z.literal("")),
   budget: z.enum(["<25k", "25-100k", "100-500k", "500k+", ""]).optional().or(z.literal("")),
   message: z.string().min(10, "Message must be at least 10 characters").max(1000, "Message is too long"),
-  gdprConsent: z.boolean().refine((val) => val === true, {
-    message: "You must consent to data processing to submit this form",
-  }),
   termsAccepted: z.boolean().optional(),
   honeypot: z.string().max(0, "Spam detected").optional(),
 })
@@ -67,7 +64,6 @@ export default function ContactForm() {
     company: "",
     budget: "",
     message: "",
-      gdprConsent: false,
       termsAccepted: false,
       honeypot: "",
     },
@@ -81,11 +77,10 @@ export default function ContactForm() {
     const requiredFieldsComplete = 
       watchedFields.fullName?.length >= 2 &&
       watchedFields.email?.includes("@") &&
-      watchedFields.message?.length >= 10 &&
-      watchedFields.gdprConsent === true
+      watchedFields.message?.length >= 10
 
     setFormComplete(requiredFieldsComplete || false)
-  }, [watchedFields.fullName, watchedFields.email, watchedFields.message, watchedFields.gdprConsent, setFormComplete])
+  }, [watchedFields.fullName, watchedFields.email, watchedFields.message, setFormComplete])
 
   const onSubmit = async (data: ContactFormData) => {
     // Honeypot check
@@ -111,7 +106,6 @@ export default function ContactForm() {
           company: data.company?.trim() || undefined,
           budget: data.budget || undefined,
           message: data.message.trim(),
-          gdprConsent: data.gdprConsent,
         }),
       })
 
@@ -490,46 +484,6 @@ export default function ContactForm() {
                       </div>
                     </div>
 
-                    {/* GDPR Consent Checkbox */}
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-3 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                        <input
-                          type="checkbox"
-                          id="gdprConsent"
-                          {...register("gdprConsent")}
-                          aria-required="true"
-                          aria-invalid={errors.gdprConsent ? "true" : "false"}
-                          aria-describedby={errors.gdprConsent ? "gdprConsent-error" : undefined}
-                          className="mt-1 w-5 h-5 rounded border-gray-300 bg-white text-primary focus:ring-primary focus:ring-2"
-                        />
-                        <Label htmlFor="gdprConsent" className="text-sm text-gray-700 leading-relaxed cursor-pointer">
-                          I consent to the processing of my personal data in accordance with the{" "}
-                          <a href="/privacy" className="text-primary hover:text-primary/80 underline">
-                            Privacy Policy
-                          </a>
-                          {" "}and{" "}
-                          <a href="/data-protection" className="text-primary hover:text-primary/80 underline">
-                            Data Protection Policy
-                          </a>
-                          . <span className="text-destructive">*</span>
-                        </Label>
-                      </div>
-                      <AnimatePresence>
-                        {errors.gdprConsent && (
-                          <motion.p
-                            id="gdprConsent-error"
-                            role="alert"
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            className="text-sm text-destructive flex items-center gap-1"
-                          >
-                            <AlertCircle className="h-4 w-4" aria-hidden="true" />
-                            {errors.gdprConsent.message}
-                          </motion.p>
-                        )}
-                      </AnimatePresence>
-                </div>
 
                     {/* Legal Compliance Checkbox - Decision Point 3 */}
                     <div className="space-y-2">

@@ -419,22 +419,22 @@ export default function FeaturesBenefitsDetailed() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-4xl mx-auto"
         >
-          <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20">
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <Card className="bg-gradient-to-r from-primary/30 via-primary/25 to-primary/30 border-2 border-primary/50 shadow-xl shadow-primary/20">
+            <CardContent className="pt-8 pb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
-                  <div className="text-4xl font-bold text-white mb-2">500+</div>
-                  <div className="text-slate-300 text-sm">Companies Served</div>
+                  <div className="text-6xl font-extrabold text-white mb-3 tracking-tight">500+</div>
+                  <div className="text-white text-base font-semibold">Companies Served</div>
                 </div>
-                <div className="hidden md:block w-px bg-slate-700"></div>
+                <div className="hidden md:block w-px bg-primary/40"></div>
                 <div>
-                  <div className="text-4xl font-bold text-white mb-2">95%</div>
-                  <div className="text-slate-300 text-sm">Success Rate</div>
+                  <div className="text-6xl font-extrabold text-white mb-3 tracking-tight">95%</div>
+                  <div className="text-white text-base font-semibold">Success Rate</div>
                 </div>
-                <div className="hidden md:block w-px bg-slate-700"></div>
+                <div className="hidden md:block w-px bg-primary/40"></div>
                 <div>
-                  <div className="text-4xl font-bold text-white mb-2">4.9/5</div>
-                  <div className="text-slate-300 text-sm">Average Rating</div>
+                  <div className="text-6xl font-extrabold text-white mb-3 tracking-tight">4.9/5</div>
+                  <div className="text-white text-base font-semibold">Average Rating</div>
                 </div>
               </div>
             </CardContent>
@@ -471,5 +471,6 @@ export default function FeaturesBenefitsDetailed() {
     </section>
   )
 }
+
 
 

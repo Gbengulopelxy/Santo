@@ -19,7 +19,6 @@ interface ContactFormData {
   company?: string
   budget?: string
   message: string
-  gdprConsent: boolean
 }
 
 export async function POST(request: NextRequest) {
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
     const data: ContactFormData = await request.json()
 
     // Validate required fields
-    if (!data.fullName || !data.email || !data.message || !data.gdprConsent) {
+    if (!data.fullName || !data.email || !data.message) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -51,7 +50,6 @@ export async function POST(request: NextRequest) {
             <p><strong>Message:</strong></p>
             <p>${data.message.replace(/\n/g, "<br>")}</p>
             <hr>
-            <p><small>GDPR Consent: ${data.gdprConsent ? "Yes" : "No"}</small></p>
             <p><small>Submitted: ${new Date().toLocaleString()}</small></p>
           `,
         })

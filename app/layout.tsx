@@ -4,9 +4,7 @@ import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import StructuredData from "@/components/StructuredData"
 import Header from "@/components/layout/Header"
-import CookieBanner from "@/components/layout/CookieBanner"
 import { DecisionProvider } from "@/contexts/DecisionContext"
-import LegalComplianceSidebar from "@/components/LegalComplianceSidebar"
 import PerformanceOptimizations from "@/components/PerformanceOptimizations"
 import SkipToMain from "@/components/accessibility/SkipToMain"
 // Analytics component - only works in client components
@@ -136,8 +134,6 @@ export default function RootLayout({
             <SocialSidebar />
             {children}
             <Toaster />
-            <CookieBanner />
-            <LegalComplianceSidebar />
           </RegionProvider>
         </DecisionProvider>
       </body>

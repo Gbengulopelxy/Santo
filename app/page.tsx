@@ -20,7 +20,6 @@ import FeaturesBenefitsDetailed from "@/components/FeaturesBenefitsDetailed"
 import CTASection from "@/components/sections/CTASection"
 import CaseStudies from "@/components/CaseStudies"
 import Testimonials from "@/components/Testimonials"
-import PricingSection from "@/components/sections/PricingSection"
 import ContactForm from "@/components/ContactForm"
 import Footer from "@/components/layout/Footer"
 
@@ -60,8 +59,6 @@ export default function HomePage() {
         variant="secondary"
         className="mt-24"
       />
-
-      <PricingSection />
 
       <CTASection
         title="Still Have Questions?"
